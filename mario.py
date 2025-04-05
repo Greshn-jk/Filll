@@ -124,3 +124,89 @@ def game_over():
                     pygame.quit()
                     sys.exit()
         pygame.display.update()
+
+def  start_game():
+    canvas.fill(BLACK)
+    start_img = pygame.image.load('start.png')
+    start_img_rect = start_img.get_rect()
+    start_img_rect.center = (WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
+    canvas.blit(start_img, start_img_rect)
+    while True:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    pygame.quit
+                    sys.exit
+                game_loop()
+        pygame.display.update()
+
+def chek_level(SCORE):
+    global LEVEL
+    if SCORE in range(0, 10):
+        cactus_img_rect.bottom = 50
+        fire_img_rect.top = WINDOW_HEIGHT - 50
+        LEVEL = 1
+    elif SCORE in range(10, 20):
+        cactus_img_rect.bottom = 100
+        fire_img_rect.top = WINDOW_HEIGHT - 100
+        LEVEL = 2
+    elif SCORE in range(20, 30):
+        cactus_img_rect.bottom = 150
+        fire_img_rect.top = WINDOW_HEIGHT - 150
+        LEVEL = 3
+    elif SCORE > 30:
+        cactus_img_rect.bottom = 200
+        fire_img_rect.top = WINDOW_HEIGHT - 200
+        LEVEL = 4
+
+def game_loop():
+    while True:
+        global Dragon
+        dragon = Dragon()
+        flames = Flames()
+        mario = Mario()
+        add_new_flame_counter = 0
+        global SCORE
+        SCORE = 0
+        global HIGH_SCORE
+        flames_list = []
+        pygame.mixer.music.load('mario_theme.wav')
+        pygame.mixer.music.play(-1, 0.0)
+        while True:
+            canvas.fill(BLACK)
+            chek_level(SCORE)
+            dragon.update()
+            add_new_flame_counter += 1
+
+            if add_new_flame_counter == ADD_NEW_FLAME_RATE:
+                add_new_flame_counter = 0
+                new_flame = Flames()
+                flames_list.append(new_flame)
+            for f in flames_list:
+                if f.flames_img_rect <= 0:
+                    flames_list.remove(f)
+                f.update()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_UP:
+                        mario.up = False
+                        mario.down = True
+                    elif event.key == pygame.K_DOWN:
+                        mario.up = True
+                        mario.down = False
+            score_font = font.render('Очки:'+str(SCORE), True, GREEN)
+            score_font_rect = score_font.get_rect()
+            score_font_rect.center = (200, cactus_img_rect.bottom + score_font_rect.height/2)
+            canvas.blit(score_font, score_font_rect)
+
+
+            level_font = 
+
+            top_score_font = 
